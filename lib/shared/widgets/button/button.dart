@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:tacaro_flutter_race/shared/theme/app_theme.dart';
 
 enum ButtonType {
@@ -10,12 +11,12 @@ enum ButtonType {
 class Button extends StatelessWidget {
   final String label;
   final ButtonType type;
-  final Size size;
+  final VoidCallback onTap;
 
   const Button({
     Key? key,
     required this.label,
-    required this.size,
+    required this.onTap,
     this.type = ButtonType.fill,
   }) : super(key: key);
 
@@ -53,9 +54,9 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
-        height: size.height * 0.08,
+        height: 65,
         width: double.maxFinite,
         decoration: boxDecoration,
         child: Center(

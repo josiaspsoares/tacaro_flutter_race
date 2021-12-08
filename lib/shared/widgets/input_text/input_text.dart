@@ -4,11 +4,17 @@ import 'package:tacaro_flutter_race/shared/theme/app_theme.dart';
 class InputText extends StatelessWidget {
   final String label;
   final String hint;
+  final bool obscure;
+  final void Function(String)? onChanged;
+  final String? Function(String)? validator;
 
   const InputText({
     Key? key,
     required this.label,
     required this.hint,
+    this.obscure = false,
+    this.onChanged,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -20,6 +26,13 @@ class InputText extends StatelessWidget {
         const SizedBox(height: 12),
         TextFormField(
           style: AppTheme.textStyles.input,
+          obscureText: obscure,
+          onChanged: onChanged,
+          validator: (value){
+            if(validator != null){
+              return validator!(value ?? '');
+            }
+          },
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: AppTheme.textStyles.hint,
