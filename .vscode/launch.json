@@ -7,7 +7,11 @@
         {
             "name": "tacaro_flutter_race",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args":[
+                "--dart-define","SUPABASEURL=https://qjntyqpggdvlxslkuymv.supabase.co",
+                    "--dart-define","SUPABASEKEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzOTA1MTUwOCwiZXhwIjoxOTU0NjI3NTA4fQ.1UGfTuJDGv0W_3AxfCvMgUg7MGy3juVHvjn1YUMESR0",
+            ]
         },
         {
             "name": "tacaro_flutter_race (profile mode)",

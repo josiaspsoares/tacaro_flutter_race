@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tacaro_flutter_race/modules/login/repositories/login_repository_impl.dart';
+import 'package:tacaro_flutter_race/shared/services/app_database.dart';
 import 'package:tacaro_flutter_race/shared/theme/app_theme.dart';
 import 'package:tacaro_flutter_race/shared/widgets/button/button.dart';
 import 'package:tacaro_flutter_race/shared/widgets/input_text/input_text.dart';
@@ -14,14 +16,17 @@ class CreateAccountPage extends StatefulWidget {
 }
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
-  final _controller = CreateAccountController();
+  late final CreateAccountController _controller;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
+    _controller = CreateAccountController(
+      repository: LoginRepositoryImpl(database: AppDatabase.instance),
+    );
     _controller.addListener(() {
       _controller.state.when(
-        success: (value) => Navigator.pushNamed(context, '/home'),
+        success: (value) => Navigator.pop(context),
         error: (message, _) => _scaffoldKey.currentState!.showBottomSheet(
           (context) => BottomSheet(
             onClosing: () {},

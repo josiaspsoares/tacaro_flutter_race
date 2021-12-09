@@ -14,6 +14,8 @@ abstract class IAppColors {
   Color get badColor;
   Color get border;
   Color get backButton;
+  Color get bottomNavigationBar;
+  Color get cardBackground;
 }
 
 class AppColors implements IAppColors {
@@ -55,4 +57,10 @@ class AppColors implements IAppColors {
 
   @override
   Color get backButton => const Color(0xFF000000);
+
+  @override
+  Color get bottomNavigationBar => const Color(0xFFFFFFFF);
+
+  @override
+  Color get cardBackground => const Color(0xFFFFFFFF);
 }
