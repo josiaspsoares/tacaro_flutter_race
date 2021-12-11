@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+
+import 'package:tacaro_flutter_race/shared/models/shopping_model.dart';
 import 'package:tacaro_flutter_race/shared/theme/app_theme.dart';
 
 class CustomListTile extends StatelessWidget {
+  final ShoppingModel shopping;
+
   const CustomListTile({
     Key? key,
+    required this.shopping,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 8),
+      padding: const EdgeInsets.only(bottom: 16),
       child: Container(
           decoration: BoxDecoration(
             color: AppTheme.colors.cardBackground,
@@ -19,19 +24,21 @@ class CustomListTile extends StatelessWidget {
             leading: CircleAvatar(
               backgroundColor: AppTheme.colors.background,
               radius: 30,
-              child: const Text(
-                "12/12",
-                style: TextStyle(
-                  color: Colors.black,
-                ),
+              child: Text(
+                shopping.date.split("-").sublist(1).reversed.join("/"),
+                style: AppTheme.textStyles.label,
               ),
             ),
-            title: const Text("Produto"),
-            subtitle: const Text("Preço"),
+            title: Text(
+              shopping.name,
+              style: AppTheme.textStyles.titleListTile,
+            ),
+            subtitle: Text(
+              "R\$ ${shopping.price.toStringAsFixed(2)}",
+              style: AppTheme.textStyles.subtitleListTile,
+            ),
             trailing: PopupMenuButton<String>(
-              onSelected: (value) {
-                print(value);
-              },
+              onSelected: (value) {},
               itemBuilder: (context) => [
                 const PopupMenuItem(
                   value: "Editar",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tacaro_flutter_race/shared/theme/app_theme.dart';
 
 class InputText extends StatelessWidget {
@@ -7,6 +8,8 @@ class InputText extends StatelessWidget {
   final bool obscure;
   final void Function(String)? onChanged;
   final String? Function(String)? validator;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
 
   const InputText({
     Key? key,
@@ -15,6 +18,8 @@ class InputText extends StatelessWidget {
     this.obscure = false,
     this.onChanged,
     this.validator,
+    this.inputFormatters,
+    this.keyboardType,
   }) : super(key: key);
 
   @override
@@ -26,6 +31,8 @@ class InputText extends StatelessWidget {
         const SizedBox(height: 12),
         TextFormField(
           style: AppTheme.textStyles.input,
+          inputFormatters: inputFormatters,
+          keyboardType: keyboardType,
           obscureText: obscure,
           onChanged: onChanged,
           validator: (value){

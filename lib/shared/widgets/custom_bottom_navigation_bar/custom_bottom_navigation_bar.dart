@@ -32,13 +32,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
             ),
             BottomNavigationIcon(
               icon: Icons.add,
-              onTap: () => onChanged(1),
-              enabled: currentIndex == 1,
+              onTap: () => onChanged(3),
+              enabled: false,
             ),
             BottomNavigationIcon(
               icon: Icons.settings,
-              onTap: () => onChanged(2),
-              enabled: currentIndex == 2,
+              onTap: () => onChanged(1),
+              enabled: currentIndex == 1,
             ),
           ],
         ),

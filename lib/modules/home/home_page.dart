@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:tacaro_flutter_race/shared/theme/app_colors.dart';
+import 'package:tacaro_flutter_race/modules/shopping/shopping_bottomsheet.dart';
+import 'package:tacaro_flutter_race/shared/models/user_model.dart';
 import 'package:tacaro_flutter_race/shared/theme/app_theme.dart';
 import 'package:tacaro_flutter_race/shared/widgets/custom_bottom_navigation_bar/custom_bottom_navigation_bar.dart';
-import 'package:tacaro_flutter_race/shared/widgets/custom_list_tile/custom_list_tile.dart';
-import 'package:tacaro_flutter_race/shared/widgets/product_card/product_card.dart';
 
 class HomePage extends StatefulWidget {
-  // final UserModel user;
+  final UserModel user;
+  final List<Widget> pages;
+
   const HomePage({
     Key? key,
-    // required this.user,
+    required this.pages,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -18,39 +20,28 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var currentIndex = 0;
+  late final List<Widget> pages = widget.pages;
 
-  void changeIndex(int index) {
-    setState(() {
+  void changeIndex(int index) async {
+    if (index == 3) {
+      await showModalBottomSheet(
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(32), topRight: Radius.circular(32))),
+        context: context,
+        builder: (context) => const ShoppingBottomsheet(),
+      );
+    } else {
       currentIndex = index;
-    });
+    }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: AppTheme.colors.background,
-      body: Padding(
-        padding:  EdgeInsets.only(right: size.width * 0.07, left: size.width * 0.07),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 126,
-              width: MediaQuery.of(context).size.width,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return const ProductCard();
-                },
-              ),
-            ),
-            const CustomListTile(),
-            const CustomListTile(),
-            const CustomListTile(),
-          ],
-        ),
+      body: Container(
+        key: UniqueKey(),
+        child: List.from(pages)[currentIndex],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: currentIndex,

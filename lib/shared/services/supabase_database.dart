@@ -23,7 +23,7 @@ class SupabaseDatabase implements AppDatabase {
 
     if (response.error == null) {
       final user = UserModel(id: response.user!.id, name: name, email: email);
-      await createUser(user);
+      await createUser(user: user);
       return user;
     } else {
       throw Exception(response.error?.message ?? "Não foi possível criar a conta");
@@ -35,7 +35,7 @@ class SupabaseDatabase implements AppDatabase {
     final response = await client.auth.signIn(email: email, password: password);
 
     if (response.error == null) {
-      final user = await getUser(response.user!.id);
+      final user = await getUser(id: response.user!.id);
       return user;
     } else {
       throw Exception(response.error?.message ?? "Não foi possível realizar login");
@@ -43,7 +43,7 @@ class SupabaseDatabase implements AppDatabase {
   }
 
   @override
-  Future<UserModel> createUser(UserModel user) async {
+  Future<UserModel> createUser({required UserModel user}) async {
     final response = await client.from("users").insert(user.toMap()).execute();
 
     if (response.error == null) {
@@ -54,7 +54,7 @@ class SupabaseDatabase implements AppDatabase {
   }
 
   @override
-  Future<UserModel> getUser(String id) async {
+  Future<UserModel> getUser({required String id}) async {
     final response = await client.from("users").select().filter("id", "eq", id).execute();
 
     if (response.error == null) {
@@ -62,6 +62,28 @@ class SupabaseDatabase implements AppDatabase {
       return user;
     } else {
       throw Exception(response.error?.message ?? "Não foi possível buscar o usuário");
+    }
+  }
+
+  @override
+  Future<bool> create({required String table, required Map<String, dynamic> data}) async {
+    final response = await client.from(table).insert(data).execute();
+
+    if (response.error == null) {
+      return true;
+    } else {
+      throw Exception(response.error?.message ?? "Não foi possível cadastrar");
+    }
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getAll({required String table}) async {
+    final response = await client.from(table).select().order("date").execute();
+
+    if (response.error == null) {
+      return (response.data as List<dynamic>).map((e) => e as Map<String, dynamic>).toList();
+    } else {
+      throw Exception(response.error?.message ?? "Não foi possível buscar os dados");
     }
   }
 }
