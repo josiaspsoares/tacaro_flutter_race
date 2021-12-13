@@ -13,4 +13,10 @@ class FeedRepositoryImpl implements FeedRepository {
     final response = await database.getAll(table: 'shopping');
     return response.map((e) => ShoppingModel.fromMap(e)).toList();
   }
+
+  @override
+  Future<bool> deleteShopping({required String id}) async {
+    final response = await database.delete(table: 'shopping', id: id);
+    return response;
+  }
 }

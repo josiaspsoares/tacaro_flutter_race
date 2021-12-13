@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tacaro_flutter_race/modules/login/repositories/login_repository.dart';
 import 'package:tacaro_flutter_race/shared/models/user_model.dart';
 import 'package:tacaro_flutter_race/shared/utils/state.dart';
@@ -39,7 +40,29 @@ class LoginController extends ChangeNotifier {
       try {
         update(AppState.loading());
         final response = await repository.login(email: _email, password: _password);
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('id', response.id);
+
         update(AppState.success<UserModel>(response));
+      } catch (e) {
+        update(
+          AppState.error(
+            e.toString(),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<UserModel?> getUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString('id');
+
+    if (id != null) {
+      try {
+        final response = await repository.getUser(id: id);
+        return response;
       } catch (e) {
         update(
           AppState.error(

@@ -25,9 +25,18 @@ class _HomePageState extends State<HomePage> {
   void changeIndex(int index) async {
     if (index == 3) {
       await showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(32), topRight: Radius.circular(32))),
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(32),
+            topRight: Radius.circular(32),
+          ),
+        ),
         context: context,
-        builder: (context) => const ShoppingBottomsheet(),
+        builder: (context) => Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: const ShoppingBottomsheet(),
+        ),
       );
     } else {
       currentIndex = index;

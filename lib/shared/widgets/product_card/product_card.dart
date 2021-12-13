@@ -27,7 +27,7 @@ class ProductCard extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundColor: AppTheme.colors.background,
                   radius: 30,
-                  child: product.currentPrice < product.lastPrice
+                  child: product.currentPrice < product.lastPrice || product.lastPrice == 0.0
                       ? const Icon(
                           FontAwesomeIcons.thumbsUp,
                         )

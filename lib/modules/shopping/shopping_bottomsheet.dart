@@ -3,6 +3,7 @@ import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:tacaro_flutter_race/modules/shopping/repositories/shopping_repository_impl.dart';
 import 'package:tacaro_flutter_race/modules/shopping/shopping_controller.dart';
 import 'package:tacaro_flutter_race/shared/services/app_database.dart';
+import 'package:tacaro_flutter_race/shared/theme/app_theme.dart';
 import 'package:tacaro_flutter_race/shared/widgets/button/button.dart';
 import 'package:tacaro_flutter_race/shared/widgets/input_text/input_text.dart';
 
@@ -24,6 +25,15 @@ class _ShoppingBottomsheetState extends State<ShoppingBottomsheet> {
     _controller.addListener(() {
       _controller.state.when(
         success: (_) => Navigator.of(context).pop(),
+        error: (message, _) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: AppTheme.colors.badColor,
+              content: Text(message),
+            ),
+          );
+        },
         orElse: () {},
       );
     });
@@ -44,6 +54,7 @@ class _ShoppingBottomsheetState extends State<ShoppingBottomsheet> {
         key: _controller.formKey,
         child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(
                 height: 32,
@@ -88,18 +99,10 @@ class _ShoppingBottomsheetState extends State<ShoppingBottomsheet> {
               ),
               AnimatedBuilder(
                 animation: _controller,
-                builder: (_, __) => _controller.state.when(
+                builder: (context, __) => _controller.state.when(
                   loading: () => Column(
                     children: const [
                       CircularProgressIndicator(),
-                    ],
-                  ),
-                  error: (message, _) => Column(
-                    children: [
-                      Text(
-                        message,
-                        style: const TextStyle(color: Colors.red),
-                      ),
                     ],
                   ),
                   orElse: () => Button(

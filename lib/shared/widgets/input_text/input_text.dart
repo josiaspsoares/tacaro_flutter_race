@@ -4,6 +4,7 @@ import 'package:tacaro_flutter_race/shared/theme/app_theme.dart';
 
 class InputText extends StatelessWidget {
   final String label;
+  final String? initialValue;
   final String hint;
   final bool obscure;
   final void Function(String)? onChanged;
@@ -20,6 +21,7 @@ class InputText extends StatelessWidget {
     this.validator,
     this.inputFormatters,
     this.keyboardType,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -30,13 +32,14 @@ class InputText extends StatelessWidget {
         Text(label).label,
         const SizedBox(height: 12),
         TextFormField(
+          initialValue: initialValue ?? '',
           style: AppTheme.textStyles.input,
           inputFormatters: inputFormatters,
           keyboardType: keyboardType,
           obscureText: obscure,
           onChanged: onChanged,
-          validator: (value){
-            if(validator != null){
+          validator: (value) {
+            if (validator != null) {
               return validator!(value ?? '');
             }
           },

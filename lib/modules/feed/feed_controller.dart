@@ -59,19 +59,15 @@ class FeedController extends ChangeNotifier {
     var down = 0.0;
 
     for (var product in products) {
-      if (product.currentPrice < product.lastPrice) {
+      if (product.currentPrice > product.lastPrice && product.lastPrice != 0.0) {
         up += 1.0;
       } else {
         down += 1.0;
       }
     }
 
-    final result = down / up;
-    if(result > 1){
-      return 1;
-    } else {
-      return result;
-    }
+    final result = up / (down + up);
+    return result;
   }
 
   Future<void> getData() async {
@@ -79,6 +75,15 @@ class FeedController extends ChangeNotifier {
       update(AppState.loading());
       final response = await repository.getAll();
       update(AppState.success<List<ShoppingModel>>(response));
+    } catch (e) {
+      update(AppState.error(e.toString()));
+    }
+  }
+
+  Future<void> deleteShopping({required String id}) async {
+    try {
+      await repository.deleteShopping(id: id);
+      getData();
     } catch (e) {
       update(AppState.error(e.toString()));
     }

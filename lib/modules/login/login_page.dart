@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tacaro_flutter_race/modules/login/repositories/login_repository_impl.dart';
+import 'package:tacaro_flutter_race/shared/models/user_model.dart';
 import 'package:tacaro_flutter_race/shared/services/app_database.dart';
 import 'package:tacaro_flutter_race/shared/theme/app_theme.dart';
 import 'package:tacaro_flutter_race/shared/widgets/button/button.dart';
@@ -24,15 +25,14 @@ class _LoginPageState extends State<LoginPage> {
     _controller = LoginController(
       repository: LoginRepositoryImpl(database: AppDatabase.instance),
     );
+
     _controller.addListener(() {
       _controller.state.when(
-        success: (value) => Navigator.pushNamed(context, '/home', arguments: value),
-        error: (message, _) => _scaffoldKey.currentState!.showBottomSheet(
-          (context) => BottomSheet(
-            onClosing: () {},
-            builder: (context) => Center(
-              child: Text(message),
-            ),
+        success: (value) => Navigator.pushReplacementNamed(context, '/home', arguments: value),
+        error: (message, _) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppTheme.colors.badColor,
+            content: Text(message),
           ),
         ),
         orElse: () {},
@@ -50,6 +50,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    Future.delayed(const Duration(seconds: 0)).then((value) async {
+      UserModel? user = await _controller.getUser();
+      if (user != null) {
+        Navigator.of(context).pushReplacementNamed('/home', arguments: user);
+      }
+    });
 
     return Scaffold(
       key: _scaffoldKey,

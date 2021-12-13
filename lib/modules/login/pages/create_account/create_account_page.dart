@@ -27,12 +27,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     _controller.addListener(() {
       _controller.state.when(
         success: (value) => Navigator.pop(context),
-        error: (message, _) => _scaffoldKey.currentState!.showBottomSheet(
-          (context) => BottomSheet(
-            onClosing: () {},
-            builder: (context) => Center(
-              child: Text(message),
-            ),
+        error: (message, _) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppTheme.colors.badColor,
+            content: Text(message),
           ),
         ),
         orElse: () {},

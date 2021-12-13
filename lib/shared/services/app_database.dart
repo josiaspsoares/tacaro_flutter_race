@@ -10,5 +10,6 @@ abstract class AppDatabase {
   Future<UserModel> createUser({required UserModel user});
   Future<UserModel> getUser({required String id});
   Future<bool> create({required String table, required Map<String, dynamic> data});
+  Future<bool> delete({required String table, required String id});
   Future<List<Map<String, dynamic>>> getAll({required String table});
 }

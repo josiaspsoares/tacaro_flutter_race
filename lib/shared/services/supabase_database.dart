@@ -86,4 +86,15 @@ class SupabaseDatabase implements AppDatabase {
       throw Exception(response.error?.message ?? "Não foi possível buscar os dados");
     }
   }
+
+  @override
+  Future<bool> delete({required String table, required String id}) async {
+    final response = await client.from(table).delete().filter("id", "eq", id).execute();
+
+    if (response.error == null) {
+      return true;
+    } else {
+      throw Exception(response.error?.message ?? "Não foi possível excluir registro");
+    }
+  }
 }

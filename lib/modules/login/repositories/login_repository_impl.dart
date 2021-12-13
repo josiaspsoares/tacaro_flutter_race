@@ -21,4 +21,10 @@ class LoginRepositoryImpl implements LoginRepository {
     final response = await database.login(email: email, password: password);
     return response;
   }
+
+  @override
+  Future<UserModel> getUser({required String id}) async {
+    final response = await database.getUser(id: id);
+    return response;
+  }
 }

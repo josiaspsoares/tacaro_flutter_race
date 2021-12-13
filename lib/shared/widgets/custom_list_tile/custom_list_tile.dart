@@ -5,10 +5,12 @@ import 'package:tacaro_flutter_race/shared/theme/app_theme.dart';
 
 class CustomListTile extends StatelessWidget {
   final ShoppingModel shopping;
+  final VoidCallback delete;
 
   const CustomListTile({
     Key? key,
     required this.shopping,
+    required this.delete,
   }) : super(key: key);
 
   @override
@@ -44,9 +46,10 @@ class CustomListTile extends StatelessWidget {
                   value: "Editar",
                   child: Text("Editar"),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: "Excluir",
-                  child: Text("Excluir"),
+                  child: const Text("Excluir"),
+                  onTap: delete,
                 ),
               ],
             ),
